@@ -16,14 +16,15 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'joshdick/onedark.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'bling/vim-airline'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
 Plugin 'valloric/matchtagalways'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'crusoexia/vim-monokai'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+Plugin 'sirver/ultisnips'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -58,19 +59,15 @@ autocmd CompleteDone * pclose
 syntax on
 colorscheme monokai
 
+" Set trigger for snippets
+let g:UltiSnipsExpandTrigger = "<c-d>"
 
 " Ignore node_modules when searhcing for files
 set wildignore=~/Users/jamescox/**/node_modules/**
 let g:ctrlp_custom_ignore = 'node_modules'
 let g:ctrlp_custom_ignore = 'vendor'
 
-" Tell syntastic to check for erros on save
-let g:syntastic_check_on_wq = 1
-let g:syntastic_python_python_exec = 'python3'
-
-
-
-
+"
 " For mouse click in NERDTree
 :set mouse=a
 let g:NERDTreeMouseMode=3
@@ -78,10 +75,6 @@ let g:NERDTreeMouseMode=3
 """"""""""""""""""""""""""""""
 " Golang Specific Operations
 """"""""""""""""""""""""""""""
-
-" Tell syntastic that go, golint and errcheck are installed
-let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
-
 setlocal omnifunc=go#complete#Complete
 
 "vim-go
@@ -92,7 +85,7 @@ autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
 
 let g:go_auto_type_info = 1
-let g:go_guru_scope = ["github.com/flexera", "github.com/bdna", "github.com/jcox250"]
+let g:go_guru_scope = ["github.com/flexera/...", "github.com/bdna/...", "github.com/jcox250/..."]
 
 " Tell vim-go that goimports is installed
 let g:go_fmt_command = "goimports"
@@ -103,11 +96,8 @@ let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_updatetime = 100
+let g:go_updatetime = 400
 
-"Remap GoSameids function
-"au FileType go nmap <Leader>r <Plug>(go_auto_sameids)
 
 " Open go doc in verticle window, horizontal, or tab
 au Filetype go nnoremap <leader>v :vsp <CR>:exe "GoDef" <CR>
