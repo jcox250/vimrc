@@ -24,6 +24,7 @@ Plugin 'crusoexia/vim-monokai'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'sirver/ultisnips'
+Plugin 'JamshedVesuna/vim-markdown-preview'
 
 
 " All of your Plugins must be added before the following line
@@ -45,6 +46,7 @@ set autowrite
 set hlsearch
 set cursorline
 set colorcolumn=80
+set term=xterm-256color
 autocmd CompleteDone * pclose
 " show existing tab with 4 spaces width
 set tabstop=4
@@ -85,7 +87,10 @@ autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
 
 let g:go_auto_type_info = 1
-let g:go_guru_scope = ["github.com/flexera/...", "github.com/bdna/...", "github.com/jcox250/..."]
+let g:go_guru_scope = ["github.com/flexera/..."]
+
+"let g:go_def_mode='gopls'
+"let g:go_info_mode='gopls'
 
 " Tell vim-go that goimports is installed
 let g:go_fmt_command = "goimports"
@@ -100,11 +105,42 @@ let g:go_updatetime = 400
 
 
 " Open go doc in verticle window, horizontal, or tab
-au Filetype go nnoremap <leader>v :vsp <CR>:exe "GoDef" <CR>
-au Filetype go nnoremap <leader>s :sp <CR>:exe "GoDef" <CR>
-au Filetype go nnoremap <leader>t :tab split <CR>:exe "GoDef" <CR>
-au FileType go nmap <Leader>i <Plug>(go-info)
+au Filetype go nnoremap <leader>vgd :vsp <CR>:exe "GoDef" <CR>
+au Filetype go nnoremap <leader>sgd :sp <CR>:exe "GoDef" <CR>
+au FileType go nmap <Leader>def <Plug>(go-def)
+au FileType go nmap <Leader>pop <Plug>(go-def-pop)
 
 """"""""""""""""""""""""""""""
 " End Go Specific Operations "
 """"""""""""""""""""""""""""""
+
+
+" Swap buffer funcs
+function! MarkWindowSwap()
+    let g:markedWinNum = winnr()
+endfunction
+
+function! DoWindowSwap()
+    "Mark destination
+    let curNum = winnr()
+    let curBuf = bufnr( "%" )
+    exe g:markedWinNum . "wincmd w"
+    "Switch to source and shuffle dest->source
+    let markedBuf = bufnr( "%" )
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' curBuf
+    "Switch to dest and shuffle source->dest
+    exe curNum . "wincmd w"
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' markedBuf
+endfunction
+
+" Swap buffers
+nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
+nmap <silent> <leader>sw :call DoWindowSwap()<CR>
+
+" Markdown preview
+let vim_markdown_preview_hotkey='<C-m>'
+let vim_markdown_preview_github=1
+let vim_markdown_preview_browser='Brave Browser'
+
