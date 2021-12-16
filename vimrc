@@ -11,10 +11,10 @@ Plugin 'VundleVim/Vundle.vim'
 
 
 " Add Plugins Below
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'fatih/vim-go'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'bling/vim-airline'
@@ -39,7 +39,9 @@ filetype plugin indent on    " required
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal!
 
-" Enable Vim Features
+let g:pymode_python = 'python3'
+
+"Enable Vim Features
 set number
 set backspace=indent,eol,start
 set autowrite
@@ -87,7 +89,8 @@ autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
 
 let g:go_auto_type_info = 1
-let g:go_guru_scope = ["github.com/flexera/..."]
+let g:go_guru_scope = ["github.com/wings-software/...", "github.com/jcox250"]
+let g:go_auto_sameids = 0
 
 "let g:go_def_mode='gopls'
 "let g:go_info_mode='gopls'
